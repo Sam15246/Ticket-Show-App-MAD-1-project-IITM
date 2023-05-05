@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>User Details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/navbar.css">
+
+    <style>
+        .card {
+            margin-top: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            font-size: 1.5rem;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+    </style>
+    <title>Profile</title>
+
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <a class="home-link " href="#">Ticket Show App</a>
+        <a class="products-link" style="left: 30%;" href="/user/{{user_details.user_id}}">{{user_details.u_username}}'s
+            Dashboard</a>
+        <div class="right-links">
+
+            <form action="/user/{{user_details.user_id}}/search" method="post" class="search_bar">
+                <input type="text" name="q" style="width:220px;" placeholder="Search for venues and shows">
+                <button type="submit">Search</button>
+            </form>
+
+            <a href="/user/{{user_details.user_id}}/profile" class="active">Profile</a>
+            <a href="/user/{{user_details.user_id}}/bookings">Bookings</a>
+            <a href="/">Logout</a>
+
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        {{user_details.u_username}}'s Details:
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Username:</label>
+                            <p id="name">{{user_details.u_username}}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email:</label>
+                            <p id="email">{{user_details.u_email}}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">User ID:</label>
+                            <p id="phone">{{user_details.user_id}}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="address" class="form-label">{{user_details.u_username}} Bookings:</label>
+
+                            <ol>
+                                {% for booking in user_details.u_bookings %}
+                                <li> <a href="/api/show/{{booking.which_show.s_id}}/display">{{
+                                        booking.which_show.s_name }}</a>, • Booking ID: {{booking.booking_id}}</li>
+                                {% endfor %}
+
+                            </ol>
+
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="address" class="form-label">{{user_details.u_username}} Ratings:</label>
+
+                            <ol>
+                                {% for rating in user_details.u_ratings %}
+                                <li> <a href="/api/show/{{rating.s_id}}/display">{{ rating.which_show.s_name }}</a> - {{rating.r_score}}/5</li>
+                                {% endfor %}
+
+                            </ol>
+
+                        </div>
+                    </div>
+                </div><br>
+                <h4><a href="/user/{{user_details.user_id}}">Back to dashboard</a></h4>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

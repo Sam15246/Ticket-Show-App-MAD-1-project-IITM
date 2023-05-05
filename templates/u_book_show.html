@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+	<link rel="stylesheet" href="/static/css/navbar.css">
+
+	<title>Welcome</title>
+
+	
+</head>
+
+<body>
+
+	<!-- Navbar -->
+	<nav>
+		<a class="home-link " href="#">Ticket Show App</a>
+		<a class="products-link " style="left: 40%;" href="/user/{{user_details['user_id']}}">{{user_details.u_username}} Dashboard</a>
+		<div class="right-links">
+			<a href="/user/{{user_details['user_id']}}/profile">Profile</a>
+			<a href="/user/{{user_details.user_id}}/bookings">Bookings</a>
+			<a href="/">Logout</a>
+		</div>
+	</nav>
+
+	<!-- Rest of the page content goes here -->
+
+	<div class="container text-center" style="margin-top: 30px;">
+
+		<h2>Booking • Show: <a href="/api/show/{{show_details.s_id}}/display">{{show_details.s_name}}</a> • Venue: <a
+				href="/api/venue/{{show_details.which_venue.v_id}}/display">{{show_details.which_venue.v_name}}</a>
+		</h2>
+
+		<br>
+		<div class="row">
+			<div class="col-md-8">
+
+				<h4>Timing: {{show_details.s_time}}</h4> <br>
+
+				<h4>Available_seats: {% if available_seats > 0 %} {{available_seats}} {% else %} 0 {% endif %}</h4> <br>
+
+
+				<form action="/user/{{user_details.user_id}}/venue/{{venue_id}}/show/{{show_details.s_id}}/book"
+					method="post" height="50%" width="40%" onsubmit="return validate_no_of_tickets()">
+
+					<label for="num_tickets">Number of tickets:</label>
+					<input type="number" id="num_Tickets" name="no_of_tickets" min="1" required>
+
+					<div id="error_message" style="color: red;"></div>
+
+					<br>
+
+					<label for="price_per_ticket">Price of 1 ticket:</label readonly>
+					<input type="number" id="price_per_ticket" name="price_per_ticket" value="{{show_details.s_price}}"
+						disabled>
+					<br><br>
+
+					<label for="total_price">Total price:</label>
+					<input type="number" id="total_price" name="total_price" readonly>
+					<br><br>
+
+					{% if available_seats > 0 %}
+					<button type="submit">Book</button>
+					{% else %}
+					<button type="submit" disabled style="color: red;">Housefull</button>
+					{% endif %}
+
+
+				</form>
+
+				<!-- In order to check if the number of tickets entered are less than the available seats -->
+				<input type="hidden" id="available_seats" value="{{ available_seats }}">
+
+			</div>
+
+			<div class="col-md-4">
+			</div>
+
+		</div>
+
+	</div>
+
+	<script>
+		const numTicketsInput = document.getElementById('num_Tickets');
+		const pricePerTicket = document.getElementById('price_per_ticket').value;
+		const totalPriceInput = document.getElementById('total_price');
+
+		numTicketsInput.addEventListener('input', () => {
+			const numTickets = numTicketsInput.value;
+			//const pricePerTicket = pricePerTicketInput.value;
+			const totalPrice = numTickets * pricePerTicket;
+			totalPriceInput.value = totalPrice;
+		});
+
+		function validate_no_of_tickets() {
+			var available_seats = parseInt(document.getElementById("available_seats").value);
+			var no_of_tickets = parseInt(document.getElementById("num_Tickets").value);
+            
+			var error_msg = document.getElementById("error_message")
+
+			if (no_of_tickets > available_seats) {
+				error_msg.innerHTML = "Only " + available_seats + " seats are available!"
+				return false;
+			}
+			return true;
+		}
+	</script>
+
+</body>
+
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/static/css/navbar.css">
+    <title>Welcome</title>
+
+    <style>
+
+        .flex-container {
+            display: flex;
+            flex-direction: column;
+            background-color: yellowgreen;
+
+        }
+
+        .style_div {
+            background-color: wheat;
+            width: auto;
+            height: auto;
+            border: solid black 3px;
+            border-radius: 20px;
+
+            margin: 10px;
+            text-align: center;
+            line-height: 45px;
+            font-size: 20px;
+
+        }
+    
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a class="home-link " href="#">Ticket Show App</a>
+        <a class="products-link active" style="left: 40%;" class="active" href="/admin/dashboard">Admin Dashboard</a>
+        <div class="right-links">
+
+            <form action="/admin/search" method="post" class="search_bar">
+                <input type="text" name="q" style="width:220px;" placeholder="Search for venues and shows" value="{{query_string}}">
+                <button type="submit">Search</button>
+            </form>
+
+            <a href="/admin/summary">Summary</a>
+            <a href="/admin_login">Logout</a>
+        </div>
+    </nav>
+
+
+    <h2>Search results: </h2>
+
+    <span class="flex-container">
+
+        {% if venues|count == 0 and shows| count == 0%}
+
+        <h4>No venues related to search item '{{query_string}}' found.</h4>
+
+        <h4>No shows related to search item '{{query_string}}' found.</h4>
+
+        {% endif %}
+
+        {% if venues|count != 0 %}
+
+
+        <h2>Venues: </h2>
+
+
+        {% for venue in venues %}
+
+            <div class="style_div">
+
+                {{loop.index}}) <a href="/api/venue/{{venue.v_id}}/display">{{venue.v_name}}</a>, {{venue.v_place}},
+                {{venue.v_location}}
+                
+                <br>
+                <button>
+                    <span>
+                        <a href="/venue/{{venue.v_id}}/add_show" style="font-weight: 500; font-size: 16px; color: rgb(27, 0, 205);">
+                            +Add a show
+                        </a>
+                    </span>
+                </button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                <button>
+                    <span>
+                        <a href="/venue/{{venue.v_id}}/edit" style="font-weight: 500; font-size: 16px; color: rgb(0,0,0);">
+                            Edit Venue
+                        </a>
+                    </span>
+                </button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button>
+                    <span>
+                        <a href="/venue/{{venue.v_id}}/delete" style="font-weight: 500; font-size: 16px; color: rgb(249, 17, 17);">
+                            Delete Venue
+                        </a>
+                    </span>
+                </button>
+                
+            </div>
+
+
+        {% endfor %}
+
+        {% endif %}
+
+
+        {% if shows|count != 0 %}
+
+        <h2>Shows: </h2>
+
+        {% for show in shows %}
+
+        <div class="style_div">
+
+            {{loop.index}}) <a href="/api/show/{{show.s_id}}/display">{{show.s_name}}</a> • {{show.s_tags}} •
+            {{show.s_rating}} • <a href="/api/venue/{{show.which_venue.v_id}}/display">{{show.which_venue.v_name}}</a>
+
+            <br>
+
+            <button>
+                <span>
+                    <a href="/venue/{{show.which_venue.v_id}}/show/{{show.s_id}}/edit" style="font-weight: 500; font-size: 16px; color: rgb(0,0,0);">
+                        Edit Show
+                    </a>
+                </span>
+            </button>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+            <button>
+
+                <span>
+                    <a href="/venue/{{show.which_venue.v_id}}/show/{{show.s_id}}/delete" style="font-weight: 500; font-size: 16px; color: rgb(249, 17, 17);">
+                        Delete Show
+                    </a>
+                </span>
+            </button>
+
+        </div>
+
+
+        {% endfor %}
+
+        {% endif %}
+
+    </span>
+
+    <a href="/admin/dashboard">
+        <h3>Go Back</h3>
+    </a>
+
+</body>
+
+</html>

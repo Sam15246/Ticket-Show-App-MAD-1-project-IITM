@@ -1,0 +1,55 @@
+/* Style the navbar */
+nav {
+  overflow: hidden;
+  background-color: #333;
+  font-family: Arial, sans-serif;
+}
+
+/* Links inside the navbar */
+nav a {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change color on hover */
+nav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.search_bar {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 16px 10px;
+}
+
+/* Active link */
+nav .active {
+  background-color: #4caf50;
+  color: white;
+}
+
+/* Float the home link to the left */
+nav .home-link {
+  float: left;
+}
+
+/* Align the other links to the right */
+nav .right-links {
+  float: right;
+}
+
+/* Add some margin between the links */
+nav a:not(.home-link):not(.right-links) {
+  margin-left: 20px;
+}
+
+/* Position the Products link in the middle */
+nav .products-link {
+  position: relative;
+  left: 10%;
+  transform: translateX(-50%);
+}

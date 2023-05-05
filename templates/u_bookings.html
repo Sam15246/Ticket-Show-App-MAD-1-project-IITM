@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/static/css/navbar.css">
+
+	<title>Welcome</title>
+
+	<style>
+	
+		.flex-container {
+			display: flex;
+			flex-direction: column;
+			background-color: yellowgreen;
+		}
+
+		.style_div {
+			background-color: wheat;
+			width: auto;
+			height: auto;
+			border: solid black 3px;
+			border-radius: 20px;
+
+			margin: 10px;
+			text-align: left;
+			line-height: 75px;
+			font-size: 30px;
+
+		}
+
+		#align_right {
+			text-align: right;
+		}
+	</style>
+</head>
+
+<body>
+
+	<!-- Navbar -->
+	<nav>
+		<a class="home-link " href="#">Ticket Show App</a>
+		<a class="products-link"style="left: 30%;" href="/user/{{user_details['user_id']}}">{{user_details.u_username}}'s Dashboard</a>
+		<div class="right-links">
+
+			<form action="/user/{{user_details.user_id}}/search" method="post" class="search_bar">
+                <input type="text" name="q" style="width:220px;" placeholder="Search for venues and shows">
+                <button type="submit">Search</button>
+            </form>
+
+			<a href="/user/{{user_details['user_id']}}/profile">Profile</a>
+			<a href="" class="active">Bookings</a>
+			<a href="/">Logout</a>
+		</div>
+	</nav>
+
+	<span class="flex-container">
+
+		{% if bookings|count == 0 %}
+
+		<h2>You don't have any bookings yet. Book a show and enjoy.</h2>
+
+		<a href="/user/{{user_details['user_id']}}"><button style="height: 35px;">Book a show now</button> </a>
+
+		{% else %}
+
+			<h2>{{user_details.u_username}}'s Bookings:</h2>
+
+			{% for booking in bookings %}
+
+			<div class="style_div">
+
+				{% set venue = booking.which_show.which_venue %}
+				{% set show = booking.which_show %}
+
+				{{loop.index}}) Venue:  <a href="/api/venue/{{venue.v_id}}/display">{{booking.which_show.which_venue.v_name}}</a>, Show: <a href="/api/show/{{show.s_id}}/display">{{booking.which_show.s_name}}</a>,
+				Time: {{booking.b_time.strftime('%H:%M')}}, {{booking.b_date}}
+
+				<!-- {% set flag = False %}
+				{% for rating in user_details.u_ratings %}
+				{% if rating.s_id == booking.s_id %}
+
+				{% set flag = True %}
+				{% set rating_score = rating.r_score %}
+
+				{% endif %}
+				{% endfor %} -->
+
+				<!-- {% if flag == True %}
+				<button type="button" id='align_right' disabled>
+					<a
+						href="/user/{{user_details.user_id}}/venue/{{booking.which_show.which_venue.v_id}}/show/{{booking.which_show.s_id}}/rate">{{rating_score}}</a>
+				</button> -->
+
+
+				<!-- {% else %} -->
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<button>
+                        <span>
+                            <a href="/user/{{user_details.user_id}}/venue/{{booking.which_show.which_venue.v_id}}/show/{{booking.which_show.s_id}}/rate" style="font-weight: 500; font-size: 16px; color: rgb(0,0,0);">
+                                Rate
+                            </a>
+                        </span>
+                </button>
+
+				<!-- {% endif %} -->
+
+				<button>
+					<span>
+						<a href="/user/{{user_details.user_id}}/venue/{{booking.which_show.which_venue.v_id}}/show/{{booking.which_show.s_id}}/cancel/{{booking.booking_id}}" style="font-weight: 500; font-size: 16px; color:red;">
+							Cancel
+						</a>
+					</span>
+				</button>
+
+			</div>
+
+		{% endfor %}
+
+		{% endif %}
+
+	</span>
+	<h2><a href="/user/{{user_details.user_id}}">Back to dashboard</a></h2>
+
+
+
+
+</body>
+
+</html>

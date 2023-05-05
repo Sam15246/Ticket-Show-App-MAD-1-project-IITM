@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/navbar.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+    <title>Edit Show {{show_details.s_id}}</title>
+    
+</head>
+
+<body>
+
+
+    <div class="container text-center">
+
+        <nav>
+            <a class="home-link " href="#">Ticket Show App</a>
+            <a class="products-link" href="/admin/dashboard">Admin Dashboard - {{admin_details.a_username}} </a>
+            <div class="right-links">
+                <a href="#">Summary</a>
+                <a href="/admin_login">Logout</a>
+            </div>
+        </nav>
+
+        <div class="row" style="margin-top: 30px;">
+            <div class="col-md-8">
+
+                <h3>Edit the show {{show_details.s_name}} of venue {{show_details.which_venue.v_id}}: {{show_details.which_venue.v_name}}, {{show_details.which_venue.v_place}}, {{show_details.which_venue.v_location}}.</h3><br>
+                <form action="/venue/{{show_details.which_venue.v_id}}/show/{{show_details.s_id}}/edit" method="post" height="50%" width="40%">
+
+                    Show Name:<input type="text" name="show_name" value="{{show_details.s_name}}" required><br><br>
+
+                    Rating:<input type="text" name="s_rating" value="{{show_details.s_rating}}" required><br><br>
+
+                    
+                    Timing: <input type="text"  name="s_timing" id="s_timing" value="{{show_details.s_time}}"><br><br>
+
+                    Tags: <input type="text" name="s_tags" id="tags" value="{{show_details.s_tags}}"><br><br>
+
+                    Price: <input type="number" name="s_price" value="{{show_details.s_price}}" required><br><br>
+
+                    Venue: <input type="number" name="s_venue" value="{{show_details.which_venue.v_id}}" required><br><br>
+
+                    <input type="submit" value="Save"><br><br>
+
+                </form>
+            </div>
+
+            <div class="col-md-4">
+                <br><br>
+                <a href="/admin/dashboard">
+                    <h5>Go Back</h5>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/static/css/navbar.css">
+
+	<title>Search Results</title>
+
+	<style>
+		
+
+		.flex-container {
+			display: flex;
+			flex-direction: column;
+			background-color: yellowgreen;
+		}
+
+		.style_div {
+			background-color: wheat;
+			width: auto;
+			height: auto;
+			border: solid black 3px;
+			border-radius: 20px;
+
+			margin: 10px;
+			text-align: left;
+			line-height: 75px;
+			font-size: 30px;
+
+		}
+	</style>
+</head>
+
+<body>
+
+	<!-- Navbar -->
+    <nav>
+        <a class="home-link" href="/">Ticket Show App</a>
+        <a class="products-link " href="/">Sports</a>
+        <a class="products-link " href="/">Events</a>
+        <a class="products-link " href="/">Movies</a>
+        <a class="products-link " href="/">Venues</a>
+        <a class="products-link " href="/">Shows</a>
+
+
+        <div class="right-links">
+
+            <form action="/home_page/search" method="post" class="search_bar" style="background-color: rgb(225, 171, 91);">
+                <input type="text" name="q" style="width:220px;" value="{{query}}" placeholder="Search for venues and shows">
+                <button type="submit">Search</button>
+            </form>
+
+            <a href="/user_login">User Login/Register</a>
+            <a href="/admin_login">Admin Login</a>
+
+        </div>
+    </nav>
+
+	<!-- Rest of the page content goes here -->
+
+	<h2>Search results: </h2>
+
+	<span class="flex-container">
+
+		{% if venues|count == 0 and shows| count == 0%}
+
+			<h4>No venues found.</h4>
+
+			<h4>No shows found.</h4>
+		{% endif %}
+
+		{% if venues|count != 0 %}
+
+
+			<h2>Venues: </h2>
+
+
+			{% for venue in venues %}
+
+			<div class="style_div">
+
+				{{loop.index}}) <a href="/api/venue/{{venue.v_id}}/display">{{venue.v_name}}</a>, {{venue.v_place}},
+				{{venue.v_location}}
+
+			</div>
+
+
+			{% endfor %}
+
+		{% endif %}
+
+
+		{% if shows|count != 0 %}
+
+			<h2>Shows: </h2>
+
+			{% for show in shows %}
+
+				<div class="style_div">
+
+					{{loop.index}}) <a href="/api/show/{{show.s_id}}/display">{{show.s_name}}</a> • {{show.s_tags}} •
+					{{show.s_rating}} • <a href="/api/venue/{{show.which_venue.v_id}}/display">{{show.which_venue.v_name}}</a>
+
+            		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			
+					<button>
+						<span >
+							<a href="/user_login" style="font-weight: 500; font-size: 16px; color: rgb(249, 17, 17);">
+								Book tickets
+							</a>
+						</span>
+					</button>
+
+				</div>
+
+
+			{% endfor %}
+
+		{% endif %}
+
+	</span>
+
+	<a href="/">
+		<h3>Go Back</h3>
+	</a>
+
+</body>
+
+</html>

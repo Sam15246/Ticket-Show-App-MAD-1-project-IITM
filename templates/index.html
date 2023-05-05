@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/navbar.css">
+
+    <title>Welcome</title>
+
+    <style>
+        
+
+        .flex-container {
+            display: flex;
+            flex-direction: column;
+            background-color: yellowgreen;
+        }
+
+        .flex-container2 {
+            display: flex;
+            flex-direction: row;
+            background-color: yellowgreen;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .style_div {
+            background-color: wheat;
+            width: auto;
+            height: auto;
+            border: solid black 3px;
+            border-radius: 20px;
+
+            margin: 10px;
+            text-align: center;
+            line-height: 75px;
+            font-size: 30px;
+
+        }
+
+        .style_div2 {
+            background-color: lightblue;
+            width: 200px;
+            height: 200px;
+            margin-right: 15px;
+            margin-bottom: 5px;
+            border: solid black 2px;
+            border-radius: 10px;
+
+            text-align: center;
+            line-height: 18px;
+            font-size: 18px;
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <a class="home-link" href="#">Ticket Show App</a>
+        <a class="products-link active" href="#">Sports</a>
+        <a class="products-link active" href="#">Events</a>
+        <a class="products-link active" href="#">Movies</a>
+        <a class="products-link active" href="#">Venues</a>
+        <a class="products-link active" href="#">Events</a>
+
+
+        <div class="right-links">
+            <form action="/home_page/search" method="post" class="search_bar">
+                <input type="text" name="q" style="width:220px;" placeholder="Search for venues and shows">
+                <button type="submit">Search</button>
+            </form>
+
+            <a href="/user_login">User Login/Register</a>
+            <a href="/admin_login">Admin Login</a>
+
+        </div>
+    </nav>
+
+    <!-- Rest of the page content goes here -->
+    <h2>Shows/Movies:</h2>
+
+    <span class="flex-container">
+
+        {% for venue in venues %}
+
+        <div class="style_div">Venue {{loop.index}} - <a href="/api/venue/{{venue.v_id}}/display">{{venue.v_name}}</a>
+
+            <span class="flex-container2">
+
+                {% for show in venue.v_shows %}
+
+                <div class="style_div2">
+
+                    <a href="/api/show/{{show.s_id}}/display">{{show.s_name}}</a>
+                    <br><br>
+
+                    Timing: {{show.s_time}}
+                    <br><br>
+
+                    Genre: {{show.s_tags}}
+                    <br><br>
+                    
+                    <button>
+						<span>
+							<a href="/user_login"
+								style="font-weight: 500; font-size: 16px; color: rgb(0, 0, 0);">
+								Book
+							</a>
+						</span>
+					</button>
+
+
+                </div>
+
+                {% endfor %}
+
+            </span>
+
+        </div>
+
+        {% endfor %}
+
+    </span>
+
+</body>
+
+</html>

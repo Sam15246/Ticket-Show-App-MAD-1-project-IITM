@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"  href="/static/css/navbar.css">
+
+    <title>Admin Dashboard</title>
+
+    <style>
+        .flex-container {
+            display: flex;
+            flex-direction: column;
+            background-color: yellowgreen;
+            
+        }
+
+        .flex-container2 {
+            display: flex;
+            flex-direction: row;
+            background-color: yellowgreen;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .style_div {
+            background-color: wheat;
+            width: auto;
+            height: auto;
+            border: solid black 3px;
+            border-radius: 20px;
+
+            margin: 10px;
+            text-align: center;
+            line-height: 45px;
+            font-size: 20px;
+
+        }
+
+        .style_div2 {
+            background-color: lightblue;
+            width: 200px;
+            height: 180px;
+            margin-right: 35px;
+            margin-left: 10px;
+            margin-bottom: 5px;
+            border: solid black 2px;
+            border-radius: 10px;
+
+            text-align: center;
+            line-height: 18px;
+            font-size: 18px;    
+            margin-top: 5px; 
+
+        }
+
+        .add_shows {
+            width: auto;
+            height: 25px;
+            border-radius: 15%;
+            
+            background-color: blue;
+            display: flex;
+            align-content: center;
+            align-items: center;
+            justify-content: center;
+            /* margin: auto; */
+            margin-top: 70px;
+            margin-bottom: 50px;
+        }
+
+        .add_shows span {
+            color: white;
+            display: inline-block;
+            /* align-items: center;
+            justify-content: center; */
+            font-size: 16px;
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a class="home-link " href="#">Ticket Show App</a>
+        <a class="products-link active" style="left: 40%;" class="active" href="#">Admin Dashboard - {{admin_details.a_username}} </a>
+        <div class="right-links">
+
+            <form action="/admin/search" method="post" class="search_bar">
+				<input type="text" name="q" style="width:220px;" placeholder="Search for venues and shows">
+				<button type="submit">Search</button>
+			</form>
+
+            <a href="/admin/summary">Summary</a>
+            <a href="/admin_login">Logout</a>
+        </div>
+    </nav>
+
+    <h2>Venues:</h2>
+
+    <!-- Rest of the page content goes here -->
+    {% if venues|count > 0 %}
+
+
+    <span class="flex-container">
+
+        {% for venue in venues %}
+
+        <div class="style_div">Venue {{loop.index}} - <a href="/admin/venue/{{venue.v_id}}/home_view">{{venue.v_name}}, {{venue.v_location}}</a>
+            <div class="no_of_shows">No. of shows: {{venue.v_shows|count}}</div>
+
+
+            <span class="flex-container2">
+
+                {% for show in venue.v_shows %}
+                <div class="style_div2">
+
+                    <a href="/api/show/{{show.s_id}}/display">{{show.s_name}}</a>
+                    <br><br>
+
+                    Timing: {{show.s_time}}
+                    <br><br>
+
+                    Genre: {{show.s_tags}}
+                    <br><br>
+
+                    <button>
+                        <span>
+                            <a href="/venue/{{show.which_venue.v_id}}/show/{{show.s_id}}/edit" style="font-weight: 500; font-size: 16px; color: rgb(0,0,0);">
+                                Edit
+                            </a>
+                        </span>
+                    </button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button>
+
+                        <span>
+                            <a href="/venue/{{show.which_venue.v_id}}/show/{{show.s_id}}/delete" style="font-weight: 500; font-size: 16px; color: rgb(241, 8, 8);">
+                                Delete
+                            </a>
+                        </span>
+                    </button>
+
+                </div>
+
+                {% endfor %}
+
+                {% if venue.v_shows|count == 0 %}
+
+                <div class="add_shows"> <a href="/venue/{{venue.v_id}}/add_show"><span>+Add a show</span></a> </div>
+
+                {% else %}
+                
+                <div class="add_shows"> <a href="/venue/{{venue.v_id}}/add_show"><span>+Add more shows</span></a> </div>
+                        
+                {% endif %}
+                
+
+        
+            </span>
+
+            <button>
+                <span>
+                    <a href="/venue/{{venue.v_id}}/edit" style="font-weight: 500; font-size: 16px; color: rgb(0, 0, 0);">
+                        Edit Venue
+                    </a>
+                </span>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+            <button>
+                <span>
+                    <a href="/venue/{{venue.v_id}}/delete" style="font-weight: 500; font-size: 16px; color: rgb(241, 8, 8);">
+                        Delete Venue
+                    </a>
+                </span>
+            </button>
+
+
+        </div>
+        {% endfor %}
+
+    </span>
+
+    <br><br>
+    <button style="margin-left: 680px;">
+        <span>
+            <a href="/add/venue" style="font-weight: 500; font-size: 16px; color: rgb(31, 19, 201);">
+                +Add more venues
+            </a>
+        </span>
+    </button>
+
+    {% else %}
+
+        <h3>No Venues created. Create one by clicking below:-</h3>
+
+        <br><br>
+        <button>
+            <span>
+                <a href="/add/venue" style="font-weight: 500;height:50px; font-size: 16px; color: rgb(31, 19, 201);">
+                    +Add a venue now
+                </a>
+            </span>
+        </button>
+    {% endif %}
+
+</body>
+
+</html>

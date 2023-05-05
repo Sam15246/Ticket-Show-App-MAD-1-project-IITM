@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/navbar.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+    <title>Ticket Show App</title>
+    
+</head>
+
+<body>
+
+
+
+
+    <div class="container text-center">
+
+        <nav>
+            <a class="home-link " href="#">Ticket Show App</a>
+            <a class="products-link"  href="/admin/dashboard">Admin Dashboard - {{admin_details.a_username}} </a>
+            <div class="right-links">
+                <a href="#">Summary</a>
+                <a href="/admin_login">Logout</a>
+            </div>
+        </nav>
+
+
+
+        <div class="row" style="margin-top: 30px;">
+            <div class="col-md-8">
+
+                <h3>Add Venue</h3><br>
+                <form action="/add/venue" method="post" height="50%" width="40%">
+
+                    Venue Name: <input type="text" name="venue_name" placeholder="eg. PVR" required><br><br>
+
+                    Place: <input type="text" name="place" placeholder="eg. New Friends Colony" required><br><br>
+
+                    Location: <input type="address" name="location" id="location" placeholder="eg. Lucknow" required><br><br>
+
+
+                    Capacity: <input type="number" name="capacity" placeholder="eg. 500" required><br><br>
+
+                    <input type="submit" value="Save"><br><br>
+
+                </form>
+            </div>
+
+            <div class="col-md-4">
+                <br><br>
+                <a href="/admin/dashboard">
+                    <h5>Go Back</h5>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

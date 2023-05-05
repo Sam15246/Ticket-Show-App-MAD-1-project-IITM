@@ -1,0 +1,594 @@
+openapi: 3.0.2
+info:
+    title: Ticket Show App - API Documentation
+    contact:
+        name: Syed Ali Mujtaba
+        email: 21f1004482@ds.study.iitm.ac.in
+    description: >
+        <h3>- Syed Ali Mujtaba, 21f1004482</h3>
+        <div>This document contains the details of various RESTful APIs and some database models related to my MAD 1 project created using Flask-RESTful and flask-SQLAlchemy respectively.
+        <br><br>
+        <h2>Database Models(Tables):</h2>
+        </div>
+
+        <h3> Venue Table Schema </h3> 
+        <table>
+          <thead>
+            <th>Column Name</th>
+            <th>Column Type</th>
+            <th>Constraints</th>
+          </thead>
+          <tbody>
+          <tr>
+            <td>v_id</td>
+            <td>Integer</td>
+            <td>Primary Key, Auto Increment</td>
+          </tr>
+          <tr>
+            <td>v_name</td>
+            <td>String</td>
+            <td>Not Null, Unique</td>
+          </tr>
+          <tr>
+            <td>v_place</td>
+            <td>String</td>
+            <td>Not Null</td>
+          </tr>      
+          <tr>
+            <td>v_location</td>
+            <td>String</td>
+            <td>Not Null</td>
+          </tr>
+          <tr>
+            <td>v_capacity</td>
+            <td>Integer</td>
+            <td>Not Null</td>
+          </tr> 
+        </tbody>
+        </table>
+
+        <h3> Show Table Schema </h3> 
+        <table>
+          <thead>
+            <th>Column Name</th>
+            <th>Column Type</th>
+            <th>Constraints</th>
+          </thead>
+          <tbody>
+          <tr>
+            <td>s_id</td>
+            <td>Integer</td>
+            <td>Primary Key, Auto Increment</td>
+          </tr>
+          <tr>
+            <td>s_name</td>
+            <td>String</td>
+            <td>Not Null</td>
+          </tr>
+          <tr>
+            <td>s_rating</td>
+            <td>String</td>
+            <td>Nullable</td>
+          </tr>      
+          <tr>
+            <td>s_tags</td>
+            <td>String</td>
+            <td>Nullable</td>
+          </tr>
+          <tr>
+            <td>s_time</td>
+            <td>String</td>
+            <td>Not Null</td>
+          </tr> 
+          <tr>
+            <td>s_venue</td>
+            <td>Integer</td>
+            <td>Not Null</td>
+          </tr> 
+          
+        </tbody>
+        </table>
+
+    version: 1.0.0
+servers:
+    - url: http://127.0.0.1:5000
+tags:
+    - name: show
+      description: API operations related to shows.
+    - name: venue
+      description: API operations related to venues.
+    - name: show_display
+      description: API operation to display show details in HTML format.
+    - name: venue_display
+      description: API operation to display venue details in HTML format.
+
+paths:
+    /api/show/{show_id}:
+        description: End point to create, read, update and delete a show resource with show Id = show_id.
+        get:
+            tags:
+                - show
+            description: Operation to read Show resource.
+            operationId: readShow
+            parameters:
+                - in: path
+                  name: show_id
+                  required: true
+                  schema:
+                      type: integer
+                      example: 2
+            responses:
+                "200":
+                    description: Request Successful
+                    content:
+                        application/json:
+                            schema:
+                                title: show object
+                                type: object
+                                properties:
+                                    show_id:
+                                        type: integer
+                                        example: 1
+                                    show_name:
+                                        type: string
+                                        example: The Fading Morals
+                                    show_rating:
+                                        type: string
+                                        example: eg. U/A, U, G, A
+                                    show_tags:
+                                        type: string
+                                        example: comedy, action, spiritual
+                                    show_time:
+                                        type: string
+                                        example: "10:00 AM - 12:30 PM"
+                                    show_venue:
+                                        type: string
+                                        example: Lulu Mall
+                                    show_price:
+                                        type: integer
+                                        example: 320
+
+                "500":
+                    description: Internal Server Error
+                "404":
+                    description: Show not found
+
+        put:
+            tags:
+                - show
+            description: Operation to update the show resource.
+            operationId: UpdateShow
+            parameters:
+                - in: path
+                  name: show_id
+                  required: true
+                  schema:
+                      type: integer
+                      example: 4
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                s_name:
+                                    type: string
+                                    example: The Fading Morals
+                                s_rating:
+                                    type: string
+                                    example: U/A
+                                s_tags:
+                                    type: string
+                                    example: comedy, action, spiritual
+                                s_time:
+                                    type: string
+                                    example: "10:00 AM - 12:30 PM"
+                                s_venue:
+                                    type: integer
+                                    example: 2
+                                s_price:
+                                    type: integer
+                                    example: 300
+
+            responses:
+                "201":
+                    description: Successfuly updated
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    show_id:
+                                        type: integer
+                                        example: 1
+                                    show_name:
+                                        type: string
+                                        example: The Fading Morals
+                                    show_rating:
+                                        type: string
+                                        example: U/A
+                                    show_tags:
+                                        type: string
+                                        example: comedy, action, spiritual
+                                    show_time:
+                                        type: string
+                                        example: "10:00 AM - 12:30 PM"
+                                    show_venue:
+                                        type: integer
+                                        example: 2
+                                    show_price:
+                                        type: integer
+                                        example: 300
+                "404":
+                    description: Show not found
+                "405":
+                    description: Venue in which show needs to be added is not found
+                "409":
+                    description: A show already exists at the same timing in the desired venue.
+                "500":
+                    description: Internal Server Error
+
+        delete:
+            tags:
+                - show
+            description: Operation to delete the show resource
+            operationId: deleteShow
+            parameters:
+                - in: path
+                  name: show_id
+                  required: true
+                  schema:
+                      type: integer
+                      example: 1
+            responses:
+                "200":
+                    description: Successfully Deleted
+                "404":
+                    description: Show not found
+                "500":
+                    description: Intenal Server Error
+
+    /api/show:
+        description: End point to create how
+        post:
+            tags:
+                - show
+            description: Operation to create the show resource
+            operationId: createShow
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                s_name:
+                                    type: string
+                                    example: The Fading Morals
+                                s_rating:
+                                    type: string
+                                    example: U
+                                s_tags:
+                                    type: string
+                                    example: comedy, action, spiritual
+                                s_time:
+                                    type: string
+                                    example: "10:00 AM - 12:30 PM"
+                                s_venue:
+                                    type: integer
+                                    example: 2
+                                s_price:
+                                    type: integer
+                                    example: 1000
+            responses:
+                "201":
+                    description: Successfully Created
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    show_id:
+                                        type: integer
+                                        example: 1
+                                    show_name:
+                                        type: string
+                                        example: The Fading Morals
+                                    show_rating:
+                                        type: string
+                                        example: U
+                                    show_tags:
+                                        type: string
+                                        example: comedy, action, spiritual
+                                    show_time:
+                                        type: string
+                                        example: "10:00 AM - 12:30 PM"
+                                    show_venue:
+                                        type: integer
+                                        example: 2
+                                    show_price:
+                                        type: integer
+                                        example: 1000
+                "405":
+                    description: The venue in which show needs to be added is not found
+                "410":
+                    description: A show already exists at the same timing in the desired venue.
+                "500":
+                    description: Internal Server Error
+
+    /api/venue/{venue_id}:
+        description: Url to create, read, update and delete the venue resource.
+        get:
+            tags:
+                - venue
+            description: Operation to read venue resource
+            operationId: readVenue
+            parameters:
+                - in: path
+                  name: venue_id
+                  required: true
+                  schema:
+                      type: integer
+                      example: 2
+            responses:
+                "200":
+                    description: Request Successful
+                    content:
+                        application/json:
+                            schema:
+                                title: venue object
+                                type: object
+                                properties:
+                                    venue_id:
+                                        type: integer
+                                        example: 11
+                                    venue_name:
+                                        type: string
+                                        example: Phinix Plassio
+                                    venue_place:
+                                        type: string
+                                        example: Gomti Nagar
+                                    venue_location:
+                                        type: string
+                                        example: Lucknow
+                                    venue_capacity:
+                                        type: integer
+                                        example: 200
+                                    venue_shows:
+                                        type: array
+                                        items: { type: object }
+                                        example: [<Show ABC>, <Show XYZ>]
+
+                "500":
+                    description: Internal server error
+                "404":
+                    description: Venue not found
+
+        put:
+            tags:
+                - venue
+            description: Operation to update the venue resource
+            operationId: updateVenue
+            parameters:
+                - in: path
+                  name: venue_id
+                  required: true
+                  schema:
+                      type: integer
+                      example: 11
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                v_name:
+                                    type: string
+                                    example: Phinix Plassio
+                                v_place:
+                                    type: string
+                                    example: Gomti Nagar
+                                v_location:
+                                    type: string
+                                    example: Lucknow
+                                v_capacity:
+                                    type: integer
+                                    example: 200
+            responses:
+                "201":
+                    description: Successfully updated
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    venue_id:
+                                        type: integer
+                                        example: 11
+                                    venue_name:
+                                        type: string
+                                        example: Phinix Plassio
+                                    venue_place:
+                                        type: string
+                                        example: Gomti Nagar
+                                    venue_location:
+                                        type: string
+                                        example: Lucknow
+                                    venue_capacity:
+                                        type: integer
+                                        example: 200
+                                    venue_shows:
+                                        type: array
+                                        items: { type: object }
+                                        example: []
+                "404":
+                    description: Venue not found
+                "409":
+                    description: Venue with the same name already exists. Venue names must be unique.
+                "500":
+                    description: Internal Server Error
+
+        delete:
+            tags:
+                - venue
+            description: Operation to delete the venue resource
+            operationId: deleteVenue
+            parameters:
+                - in: path
+                  name: venue_id
+                  required: true
+                  schema:
+                      type: integer
+                      example: 1
+            responses:
+                "200":
+                    description: Successfully Deleted
+                "500":
+                    description: Internal Server Error
+                "404":
+                    description: Venue not found
+
+    /api/venue:
+        description: Url to create venue resource
+        post:
+            tags:
+                - venue
+            description: Operation to create the venue resource
+            operationId: createVenue
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                v_name:
+                                    type: string
+                                    example: Phinix Plassio
+                                v_place:
+                                    type: string
+                                    example: Gomti Nagar
+                                v_location:
+                                    type: string
+                                    example: Lucknow
+                                v_capacity:
+                                    type: integer
+                                    example: 200
+            responses:
+                "201":
+                    description: Successfully Created
+                    content:
+                        application/json:
+                            schema:
+                                title: venue object
+                                type: object
+                                properties:
+                                    venue_id:
+                                        type: integer
+                                        example: 11
+                                    venue_name:
+                                        type: string
+                                        example: Phinix Plassio
+                                    venue_place:
+                                        type: string
+                                        example: Gomti Nagar
+                                    venue_location:
+                                        type: string
+                                        example: Lucknow
+                                    venue_capacity:
+                                        type: integer
+                                        example: 200
+                                    venue_shows:
+                                        type: array
+                                        items: { type: object }
+                                        example: []
+                "409":
+                    description: Venue with the same name already exists. Venue names must be unique.
+                "500":
+                    description: Internal Server Error
+
+    /api/show/{show_id}/display:
+        description: End point to display a show resource with show Id = show_id.
+        get:
+            tags:
+                - show_display
+            description: Operation to display Show resource.
+            operationId: displayShow
+            parameters:
+                - in: path
+                  name: show_id
+                  required: true
+                  schema:
+                      type: integer
+                      example: 2
+            responses:
+                "200":
+                    description: Request Successful
+                    content:
+                        text/html:
+                            schema:
+                                title: show display page
+                                type: string
+                                example: "<html><body>
+                                    <h2>Show Details:</h2>
+                                    <div>
+                                    <p>Show ID: 2</p>
+                                    <p>Show Name: Brotherhood</p>
+                                    <p>Show Censor Rating: U</p>
+                                    <p>Show Tags: Action</p>
+                                    <p>Show Venue: 1</p>
+                                    <p>Show Timing: </p>
+                                    <p>Show Price: 500</p>
+                                    <p>Show User Rating: 2.8/5</p>
+                                    </div>
+                                    </body></html>"
+
+                "500":
+                    description: Internal Server Error
+                "404":
+                    description: Show not found
+
+    /api/venue/{venue_id}/display:
+        description: End point to display a venue resource with venue Id = venue_id.
+        get:
+            tags:
+                - venue_display
+            description: Operation to display Venue resource.
+            operationId: displayVenue
+            parameters:
+                - in: path
+                  name: venue_id
+                  required: true
+                  schema:
+                      type: integer
+                      example: 2
+            responses:
+                "200":
+                    description: Request Successful
+                    content:
+                        text/html:
+                            schema:
+                                title: venue display page
+                                type: string
+                                example: '<html><body>
+                                    <h2>Venue Details:</h2>
+                                    <div>
+                                    <p>Venue ID: 2</p>
+                                    <p>Venue Name: Lulu</p>
+                                    <p>Venue Place: Sitapur Road</p>
+                                    <p>Venue Location: Lucknow</p>
+                                    <p>Venue Capacity: 1300</p>
+
+                                    <h2>Running Shows:</h2>
+                                    <ol>
+                                    <p>
+                                    <li>
+                                    <a href="#">Morals</a>
+                                    </li>
+                                    </p>
+                                    </ol>
+                                    </div>
+                                    </body></html>'
+
+                "500":
+                    description: Internal Server Error
+                "404":
+                    description: Venue not found

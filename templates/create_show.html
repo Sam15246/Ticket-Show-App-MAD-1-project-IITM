@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/navbar.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+    <title>Ticket Show App</title>
+
+</head>
+
+<body>
+
+
+    <div class="container text-center">
+
+        <!-- Navbar -->
+        <nav>
+            <a class="home-link " href="#">Ticket Show App</a>
+            <a class="products-link" href="/admin/dashboard">Admin Dashboard - {{admin_details.a_username}} </a>
+            <div class="right-links">
+                <a href="#">Summary</a>
+                <a href="/admin_login">Logout</a>
+            </div>
+        </nav>
+
+
+
+        <div class="row" style="margin-top: 30px;">
+            <div class="col-md-8">
+
+                <h3>Add a show at venue {{venue_details.v_id}}: <a href="/api/venue/{{venue_details.v_id}}/display">{{venue_details.v_name}}</a>, {{venue_details.v_place}}, {{venue_details.v_location}}.</h3><br>
+                <form action="/venue/{{venue_details.v_id}}/add_show" method="post" height="50%" width="40%">
+
+                    Show Name:<input type="text" name="show_name" placeholder="enter the show name" required><br><br>
+
+                    Rating:<input type="text" name="s_rating" placeholder="U/A, U, G, A" required><br><br>
+
+                    
+                    Timing: <input type="text"  name="s_timing" id="s_timing" placeholder="2PM - 3:30PM" ><br><br>
+
+                    Tags: <input type="text" name="s_tags" id="tags" placeholder="Comedy, Action"><br><br>
+
+                    Price: <input type="number" name="s_price" placeholder="250" required><br><br>
+
+                    Venue: <input type="number" name="s_venue" value="{{venue_details.v_id}}" disabled><br><br>
+
+                
+                    <input type="submit" value="Save"><br><br>
+
+                </form>
+            </div>
+
+            <div class="col-md-4">
+                <br><br>
+                <a href="/admin/dashboard">
+                    <h5>Go Back</h5>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>

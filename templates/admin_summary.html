@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/navbar.css">
+    <title>Venues Summary</title>
+
+    <style>
+        .summary_list{
+            font-size: large;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+        .underline{
+            text-decoration: underline;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a class="home-link " href="#">Ticket Show App</a>
+        <a class="products-link" style="left: 40%;" class="active" href="/admin/dashboard">Admin Dashboard</a>
+        <div class="right-links">
+
+            <form action="/admin/search" method="post" class="search_bar">
+                <input type="text" name="q" style="width:220px;" placeholder="Search for venues and shows">
+                <button type="submit">Search</button>
+            </form>
+
+            <a href="#" class="active">Summary</a>
+            <a href="/">Logout</a>
+        </div>
+    </nav>
+
+
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="display-7 underline" style="text-align: center;">Summary</h1>
+        </div><br>
+        <div class="row">
+            <div class="col-md-8">
+                <ul class="summary_list">
+                    <li>Total No. Of Venues:  &nbsp;&nbsp;{% if summary[0] == None %}0{% else %}{{ summary[0] }} {% endif %}</li>
+                    <li>Total No. Of Shows: &nbsp; &nbsp;{% if summary[1] == None %}0{% else %}{{ summary[1] }} {% endif %}</li>
+                    <li>Total Tickets Sold:&nbsp;&nbsp;  {{ summary[2] }}</li>
+                    <li>Total Revenue Generated:  &#8377; {% if summary[3] == None %}0{% else %}{{ summary[3] }} {% endif %}</li>
+                </ul>
+                <br><br><br>   
+                
+            </div>
+            
+            <div class ="col-md-4">
+                <ul class="summary_list">
+                    <li><a href="/admin/summary/show/ratings">Ratings of shows</a></li>     
+                </ul>
+            </div>
+            
+        </div>
+        <div class="jumbotron">
+            <h1 class="display-6 underline" style="text-align: center;">Venues Overview</h1>
+        </div>
+        {% for path in image_paths %}
+
+                <img src="/{{path}}" alt="{{ path }}">
+    
+        {% endfor %}
+    </div>
+
+</body>

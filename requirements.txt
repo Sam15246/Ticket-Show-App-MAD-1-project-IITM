@@ -1,0 +1,5 @@
+Flask==2.2
+Flask-SQLAlchemy==3.0
+flask-restful
+SQLAlchemy
+Flask-CORS

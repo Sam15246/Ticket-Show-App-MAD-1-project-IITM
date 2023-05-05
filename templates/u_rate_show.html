@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+	<link rel="stylesheet" href="/static/css/navbar.css">
+
+	<title>Rate show {{show_details.s_id}}</title>
+
+</head>
+
+<body>
+
+	<nav>
+		<a class="home-link " href="#">Ticket Show App</a>
+		<a class="products-link " style="left: 40%;"
+			href="/user/{{user_details['user_id']}}">{{user_details.u_username}}'s Dashboard</a>
+		<div class="right-links">
+			<a href="/user/{{user_details['user_id']}}/profile">Profile</a>
+			<a href="/user/{{user_details.user_id}}/bookings">Bookings</a>
+			<a href="/">Logout</a>
+		</div>
+	</nav>
+
+
+	<div class="container text-center" style="margin-top: 30px;">
+
+		<h2>Rate - Show: {{show_details.s_name}}, Venue: {{show_details.which_venue.v_name}} </h2>
+
+		<br>
+		<div class="row">
+			<div class="col-md-8">
+
+				<form action="/user/{{user_details.user_id}}/venue/{{venue_id}}/show/{{show_details.s_id}}/rate"
+					method="post" height="50%" width="40%" onsubmit="return validate_rating()">
+
+					<label for="rate_score">Rating Score:</label>
+					<input type="number" id="rate_score" name="rating_score" min="1" step="0.1"
+						value="{{rating.r_score}}" placeholder="1.0 - 5.0" required>
+
+					<div id="error_message" style="color: red;"></div>
+
+					<br>
+
+					{% if rating.r_score%}
+					<button type="submit" disabled>Submit</button>
+					{% else %}
+					<button type="submit" id="rate-btn">Submit</button>
+					{% endif %}
+
+				</form>
+
+			</div>
+
+			<div class="col-md-4">
+			</div>
+
+		</div>
+	</div>
+
+	<script>
+		function validate_rating() {
+
+			let r_score = document.getElementById("rate_score").value
+			let error_msg = document.getElementById("error_message")
+
+			if (r_score > 5) {
+				error_msg.innerHTML = "Rate on a scale of  1 - 5!"
+				return false;
+			}
+			else
+				return true;
+		}
+	</script>
+
+</body>
+
+</html>
